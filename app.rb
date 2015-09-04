@@ -14,11 +14,15 @@ end
 def get_ytenki(code)
   code = code.gsub('-','/')
   path = "http://weather.yahoo.co.jp/weather/jp/#{code}.html"
-  b = Capybara::Webkit::Driver.new('web_capture').browser
-  b.visit(path)
   fname = "/tmp/weather#{$$}.png"
-  b.render(fname, 1024, 650)
-  blob = Magick::ImageList.new(fname).crop(25, 302, 642, 710).to_blob
+
+  cmd = "/usr/bin/cutycapt --url='#{path}' --out='#{fname}'"
+  system(cmd)
+  # b = Capybara::Webkit::Driver.new('web_capture').browser # It's not working!!! Kanji is not rendered.
+  # b.visit(path)
+  # b.render(fname, 1024, 650)
+
+  blob = Magick::ImageList.new(fname).crop(0, 300, 642, 690).to_blob
   FileUtils.remove(fname)
   return blob
 end
