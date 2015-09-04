@@ -28,7 +28,7 @@ def get_ytenki(code)
 end
 
 def valid_citycode?(t)
-  t =~ /\d{2}\-\d{4}/
+  t =~ /^\d{2}\-\d{4}$/
 end
 
 def valid_format?(f)
